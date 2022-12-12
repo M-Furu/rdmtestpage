@@ -22,9 +22,3 @@
   padding: 10px;
   visibility: visible;
 }
-.acd-check6:checked + .acd-label + .acd-content{
-  height: 120px;
-  opacity: 1;
-  padding: 10px;
-  visibility: visible;
-}
