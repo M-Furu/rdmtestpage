@@ -17,7 +17,7 @@
   visibility: hidden;
 }
 .acd-check:checked + .acd-label + .acd-content{
-  height: 0px;
+  height: 150px;
   opacity: 1;
   padding: 10px;
   visibility: visible;
