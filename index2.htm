@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="Shift-JIS">
+  <title>mebeeサンプル</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
+
+<style type="text/css">
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+td {
+  font-size: 12px;
+  padding: .2em .5em;
+  border: solid 1px #ccc;
+}
+</style>
+
+</head>
+
+
+<body>
+
+<h1>RDMスキル一覧表</h1>
+<p></p>
+<h4>段階別</h4>
+<input type="checkbox" name=“r_phase” value="1">研究前段階
+<input type="checkbox" name=“r_phase” value="2">研究中
+<input type="checkbox" name=“r_phase” value="3">研究後
+<p></p>
+<h4>職種別</h4>
+<input type="checkbox" name=“job” value="1">図書館職員
+<input type="checkbox" name=“job” value="2">URA
+<input type="checkbox" name=“job” value="3">RDM
+<input type="checkbox" name=“job” value="4">IT
+<p></p>
+
+<table id="color_list"></table>
+
+</body>
+
+
+<script>
+
+const output_csv = document.getElementById('color_list');
+
+function csv_data(dataPath) {
+	const request = new XMLHttpRequest(); // HTTPでファイルを読み込む
+	request.addEventListener('load', (event) => { // ロードさせ実行
+		const response = event.target.responseText; // 受け取ったテキストを返す
+		csv_array(response); //csv_arrayの関数を実行
+	});
+	request.open('GET', dataPath, true); // csvのパスを指定
+	request.send();
+}
+
+function csv_array(data) {
+	const dataArray = []; //配列を用意
+	const dataString = data.split('\n'); //改行で分割
+	for (let i = 0; i < dataString.length; i++) { //あるだけループ
+		dataArray[i] = dataString[i].split(',');
+	}
+	let insertElement = ''; //テーブルタグに表示する用の変数
+	dataArray.forEach((element) => { //配列の中身を表示
+		insertElement += '<tr>';
+		element.forEach((childElement) => {
+			insertElement += `<td>${childElement}</td>`
+		});
+		insertElement += '</tr>';
+	});
+	output_csv.innerHTML = insertElement; // 表示
+}
+csv_data("https://raw.githubusercontent.com/chikako0219/rdmtest/main/rdmskill11.csv");// csvのパス
+/*
+function butotnClick(){
+  if (r_phase.value=="1"){
+    console.log('夕食付き');
+  } else {
+    console.log('夕食なし');
+  }
+*/
+
+</script>
+
+
+</html>
