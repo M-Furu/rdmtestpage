@@ -2,7 +2,7 @@
 <html lang="ja">
 
 <head>
-  <meta charset="Shift-JIS">
+  <meta charset="UTF-8">
   <title>mebeeサンプル</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
@@ -28,13 +28,18 @@ td {
 
 <h1>RDMスキル一覧表</h1>
 <p></p>
+
+<h3>スキルの追加や修正を希望する場合は、以下へ投稿してください</h2>
+<h3><a href="https://www.yahoo.co.jp/">Github RDMスキル Issue</a></h3>
+<p></p>
+
 <h4>段階別</h4>
 <input type="checkbox" name=“r_phase” value="1">研究前段階
 <input type="checkbox" name=“r_phase” value="2">研究中
 <input type="checkbox" name=“r_phase” value="3">研究後
 <p></p>
 <h4>職種別</h4>
-<input type="checkbox" name=“job” value="1">図書館職員
+<input type="checkbox" name=“job” value="1" checked>全職種共通
 <input type="checkbox" name=“job” value="2">URA
 <input type="checkbox" name=“job” value="3">RDM
 <input type="checkbox" name=“job” value="4">IT
@@ -46,6 +51,37 @@ td {
 
 
 <script>
+
+csv_data("https://raw.githubusercontent.com/chikako0219/rdmtest/main/rdmskill11.csv");// csvのパス
+
+
+function boxCheck(){
+
+  //チェックされた項目を記録する変数
+  var str="";
+  
+  //for文でチェックボックスを１つずつ確認
+  for( i=0; i<6; i++ )
+  {
+    //チェックされているか確認する
+    if( document.chbox.elements[i].checked )
+    {
+      //変数strが空でない時、区切りのコンマを入れる
+      if( str != "" ) str=str+",";
+      
+      //チェックボックスのvalue値を変数strに入れる
+      str=str+document.chbox.elements[i].value;
+      csv_data("https://raw.githubusercontent.com/chikako0219/rdmtest/main/rdmskill11.csv");
+    }
+  }
+  
+  //strが空の時、警告を出す
+  if( str=="" ){
+     alert( "どれか選択してください。" );
+  }else{
+    alert( str + "が選択されました。" );
+  }
+}
 
 const output_csv = document.getElementById('color_list');
 
@@ -67,23 +103,20 @@ function csv_array(data) {
 	}
 	let insertElement = ''; //テーブルタグに表示する用の変数
 	dataArray.forEach((element) => { //配列の中身を表示
+		if (element.includes("全職種（共通）") || element.includes("スキルID") ){
+		const elements = document.getElementsByName("options");		
+		console.log(element);
+		console.log(1);
 		insertElement += '<tr>';
 		element.forEach((childElement) => {
 			insertElement += `<td>${childElement}</td>`
+			//console.log(childElement);
 		});
 		insertElement += '</tr>';
+		}
 	});
 	output_csv.innerHTML = insertElement; // 表示
 }
-csv_data("https://raw.githubusercontent.com/chikako0219/rdmtest/main/rdmskill11.csv");// csvのパス
-/*
-function butotnClick(){
-  if (r_phase.value=="1"){
-    console.log('夕食付き');
-  } else {
-    console.log('夕食なし');
-  }
-*/
 
 </script>
 
