@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>RDMスキル</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
+
+<style type="text/css">
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+td {
+  font-size: 12px;
+  padding: .2em .5em;
+  border: solid 1px #ccc;
+}
+</style>
+
+</head>
+
+
+<body>
+
+<h1>RDMスキル一覧表</h1>
+<p></p>
+
+<h3>スキルの追加や修正を希望する場合は、以下へ投稿してください</h2>
+<h3><a href="https://www.yahoo.co.jp/">Github RDMスキル Issue</a></h3>
+<p></p>
+
+<h4>段階別</h4>
+<input type="checkbox" name=“r_phase” value="1">研究前段階
+<input type="checkbox" name=“r_phase” value="2">研究中
+<input type="checkbox" name=“r_phase” value="3">研究後
+<p></p>
+<h4>職種別</h4>
+<!--
+<input type="checkbox" name=“job” value="1" checked>全職種共通
+<input type="checkbox" name=“job” value="2">URA
+<input type="checkbox" name=“job” value="3">RDM
+<input type="checkbox" name=“job” value="4">IT
+<p></p>
+-->
+
+<div>
+<label><input type="checkbox" id="job0" checked>全て表示</label>
+<label><input type="checkbox" id="job1">全職種共通</label>
+<label><input type="checkbox" id="job2">URA</label>
+<label><input type="checkbox" id="job3">RDM</label>
+<label><input type="checkbox" id="job4">IT</label>
+</div>
+
+<div>
+<input type="button" value="Check" id="checkButton">
+</div>
+
+
+
+<table id="color_list"></table>
+
+</body>
+
+
+<script>
+
+function butotnClick(){
+  if (job0.checked){
+    console.log('すべて');
+    csv_data("https://raw.githubusercontent.com/M-Furu/testpage/main/rdmskill11.csv	");
+  } else if (job1.checked){
+    console.log("全職種共通");
+    csv_data("https://raw.githubusercontent.com/M-Furu/testpage/main/rdmskill11.csv	");
+  } else if (job2.checked){
+    console.log("URA");
+    csv_data("https://raw.githubusercontent.com/M-Furu/testpage/main/rdmskill11.csv	");
+  }
+}
+
+let checkbox0 = document.getElementById('job0');
+let checkbox1 = document.getElementById('job1');
+let checkbox2 = document.getElementById('job2');
+
+let checkButton = document.getElementById('checkButton');
+checkButton.addEventListener('click', butotnClick);
+
+
+csv_data("https://raw.githubusercontent.com/M-Furu/testpage/main/rdmskill11.csv	");// csvのパス
+
+const output_csv = document.getElementById('color_list');
+
+function csv_data(dataPath) {
+	const request = new XMLHttpRequest(); // HTTPでファイルを読み込む
+	request.addEventListener('load', (event) => { // ロードさせ実行
+		const response = event.target.responseText; // 受け取ったテキストを返す
+		if (job0.checked){
+			csv_array_job0(response); //csv_arrayの関数を実行
+		} if (job1.checked){
+			csv_array_job1(response); //csv_arrayの関数を実行
+		} if (job2.checked){
+			csv_array_job2(response); //csv_arrayの関数を実行
+		}});
+	request.open('GET', dataPath, true); // csvのパスを指定
+	request.send();
+}
+
+function csv_array_job0(data) {
+	const dataArray = []; //配列を用意
+	const dataString = data.split('\n'); //改行で分割
+	for (let i = 0; i < dataString.length; i++) { //あるだけループ
+		dataArray[i] = dataString[i].split(',');
+	}
+	let insertElement = ''; //テーブルタグに表示する用の変数
+	dataArray.forEach((element) => { //配列の中身を表示
+		const elements = document.getElementsByName("options");		
+		console.log(element);
+		console.log(1);
+		insertElement += '<tr>';
+		element.forEach((childElement) => {
+			insertElement += `<td>${childElement}</td>`
+		});
+		insertElement += '</tr>';
+	});
+	output_csv.innerHTML = insertElement; // 表示
+}
+
+function csv_array_job1(data) {
+	const dataArray = []; //配列を用意
+	const dataString = data.split('\n'); //改行で分割
+	for (let i = 0; i < dataString.length; i++) { //あるだけループ
+		dataArray[i] = dataString[i].split(',');
+	}
+	let insertElement = ''; //テーブルタグに表示する用の変数
+	dataArray.forEach((element) => { //配列の中身を表示
+		if (element.includes("全職種（共通）") || element.includes("スキルID") ){
+		const elements = document.getElementsByName("options");		
+		console.log(element);
+		console.log(1);
+		insertElement += '<tr>';
+		element.forEach((childElement) => {
+			insertElement += `<td>${childElement}</td>`
+			//console.log(childElement);
+		});
+		insertElement += '</tr>';
+		}
+	});
+	output_csv.innerHTML = insertElement; // 表示
+}
+
+function csv_array_job2(data) {
+	const dataArray = []; //配列を用意
+	const dataString = data.split('\n'); //改行で分割
+	for (let i = 0; i < dataString.length; i++) { //あるだけループ
+		dataArray[i] = dataString[i].split(',');
+	}
+	let insertElement = ''; //テーブルタグに表示する用の変数
+	dataArray.forEach((element) => { //配列の中身を表示
+		if (element.includes("URA") || element.includes("スキルID") ){
+		const elements = document.getElementsByName("options");		
+		console.log(2);
+		console.log("csv_array_URA");
+		insertElement += '<tr>';
+		element.forEach((childElement) => {
+			insertElement += `<td>${childElement}</td>`
+			//console.log(childElement);
+		});
+		insertElement += '</tr>';
+		}
+	});
+	output_csv.innerHTML = insertElement; // 表示
+}
+
+
+</script>
+
+
+</html>
