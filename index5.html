@@ -38,14 +38,6 @@ td {
 <h4>キーワード検索</h4>
 <input type="text" id="search">
 <p></p>
-
-<h4>段階別に必要なスキルを表示する</h4>
-<label><input type="radio" name="phase" id="phase0" checked>全て表示</label>
-<label><input type="radio" name="phase" id="phase1">全段階</label>
-<label><input type="radio" name="phase" id="phase2">研究前段階</label>
-<label><input type="radio" name="phase" id="phase3">研究中</label>
-<label><input type="radio" name="phase" id="phase4">研究後</label>
-<p></p>
 <h4>職種別に必要なスキルを表示する</h4>
 <div>
 <label><input type="radio" name="job" id="job0" checked>全て表示</label>
@@ -56,6 +48,15 @@ td {
 </div>
 <p></p>
 <div>
+
+
+<h4>段階別に必要なスキルを表示する</h4>
+<label><input type="radio" name="phase" id="phase0" checked>全て表示</label>
+<label><input type="radio" name="phase" id="phase1">全段階</label>
+<label><input type="radio" name="phase" id="phase2">研究前段階</label>
+<label><input type="radio" name="phase" id="phase3">研究中</label>
+<label><input type="radio" name="phase" id="phase4">研究後</label>
+<p></p>
 <input type="button" value="スキル表示" id="checkButton">
 </div>
 <p></p>
@@ -206,12 +207,50 @@ function csv_array_job2(data) {
 	let insertElement = ''; //テーブルタグに表示する用の変数
 	dataArray.forEach((element) => { //配列の中身を表示
 		if (element.includes("全職種（共通）") || element.find(value => value.match(/URA/)) || element.includes("スキルID") ){
+	if (phase0.checked){
 		const elements = document.getElementsByName("options");		
 		insertElement += '<tr>';
 		element.forEach((childElement) => {
 			insertElement += `<td>${childElement}</td>`
 		});
 		insertElement += '</tr>';
+	} else if(phase1.checked){
+		if (element.includes("全段階（共通）") || element.includes("スキルID") ){
+		const elements = document.getElementsByName("options");		
+		insertElement += '<tr>';
+		element.forEach((childElement) => {
+			insertElement += `<td>${childElement}</td>`
+		});
+		insertElement += '</tr>';
+		};
+	} else if(phase2.checked){
+		if (element.find(value => value.match(/研究前/)) || element.includes("スキルID") ){
+		const elements = document.getElementsByName("options");		
+		insertElement += '<tr>';
+		element.forEach((childElement) => {
+			insertElement += `<td>${childElement}</td>`
+		});
+		insertElement += '</tr>';
+		};
+	} else if(phase3.checked){
+		if (element.includes("研究中") || element.includes("スキルID") ){
+		const elements = document.getElementsByName("options");		
+		insertElement += '<tr>';
+		element.forEach((childElement) => {
+			insertElement += `<td>${childElement}</td>`
+		});
+		insertElement += '</tr>';
+		};
+	} else if(phase4.checked){
+		if (element.includes("研究後") || element.includes("スキルID") ){
+		const elements = document.getElementsByName("options");		
+		insertElement += '<tr>';
+		element.forEach((childElement) => {
+			insertElement += `<td>${childElement}</td>`
+		});
+		insertElement += '</tr>';
+		};
+	};
 		};
 	});
 	output_csv.innerHTML = insertElement; // 表示
@@ -226,12 +265,50 @@ function csv_array_job3(data) {
 	let insertElement = ''; //テーブルタグに表示する用の変数
 	dataArray.forEach((element) => { //配列の中身を表示
 		if (element.includes("全職種（共通）") || element.find(value => value.match(/RDM/)) || element.includes("スキルID") ){
+	if (phase0.checked){
 		const elements = document.getElementsByName("options");		
 		insertElement += '<tr>';
 		element.forEach((childElement) => {
 			insertElement += `<td>${childElement}</td>`
 		});
 		insertElement += '</tr>';
+	} else if(phase1.checked){
+		if (element.includes("全段階（共通）") || element.includes("スキルID") ){
+		const elements = document.getElementsByName("options");		
+		insertElement += '<tr>';
+		element.forEach((childElement) => {
+			insertElement += `<td>${childElement}</td>`
+		});
+		insertElement += '</tr>';
+		};
+	} else if(phase2.checked){
+		if (element.find(value => value.match(/研究前/)) || element.includes("スキルID") ){
+		const elements = document.getElementsByName("options");		
+		insertElement += '<tr>';
+		element.forEach((childElement) => {
+			insertElement += `<td>${childElement}</td>`
+		});
+		insertElement += '</tr>';
+		};
+	} else if(phase3.checked){
+		if (element.includes("研究中") || element.includes("スキルID") ){
+		const elements = document.getElementsByName("options");		
+		insertElement += '<tr>';
+		element.forEach((childElement) => {
+			insertElement += `<td>${childElement}</td>`
+		});
+		insertElement += '</tr>';
+		};
+	} else if(phase4.checked){
+		if (element.includes("研究後") || element.includes("スキルID") ){
+		const elements = document.getElementsByName("options");		
+		insertElement += '<tr>';
+		element.forEach((childElement) => {
+			insertElement += `<td>${childElement}</td>`
+		});
+		insertElement += '</tr>';
+		};
+	};
 		};
 	});
 	output_csv.innerHTML = insertElement; // 表示
